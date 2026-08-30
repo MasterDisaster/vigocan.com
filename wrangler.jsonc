@@ -1,4 +1,16 @@
 {
+  "name": "vigocan-manifest",
+  "compatibility_date": "2026-08-28",
+  "workers_dev": false,
+  "assets": {
+    "directory": "./src"
+  },
+  "routes": [
+	{
+		"pattern": "vigocan.com",
+		"custom_domain": true
+	}
+  ],
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,
