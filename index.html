@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigocan™ Protocol</title>
+    <style>
+        /* Reset i bazy */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #08080a;
+            color: #d1d5db;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            padding: 4rem 1rem 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Przełącznik językowy w prawym górnym rogu */
+        .lang-switcher {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .lang-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #4b5563;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .lang-btn:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #9ca3af;
+        }
+        .lang-btn.active {
+            border-color: #3b82f6;
+            color: #ffffff;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Kontener główny (Responsywność) */
+        .container {
+            max-width: 750px;
+            width: 100%;
+            background: rgba(15, 15, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 3rem 2.5rem;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Nagłówek */
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 300;
+            color: #ffffff;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        /* Blok cytatu */
+        blockquote {
+            font-style: italic;
+            color: #9ca3af;
+            border-left: 2px solid #3b82f6;
+            padding-left: 1.5rem;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        /* Akapity */
+        p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* Podświetlenia słów */
+        strong {
+            color: #ffffff;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* Stopka */
+        footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+            color: #4b5563;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Ukrywanie nieaktywnego języka */
+        .lang-section {
+            display: none;
+        }
+        .lang-section.active {
+            display: block;
+        }
+
+        /* Responsywność dla smartfonów */
+        @media (max-width: 600px) {
+            body {
+                padding: 4rem 0.5rem 1rem 0.5rem;
+            }
+            .container {
+                padding: 2rem 1.25rem;
+                box-shadow: none;
+                border: none;
+                background: transparent;
+            }
+            h1 {
+                font-size: 1.75rem;
+                margin-bottom: 2rem;
+            }
+            blockquote {
+                padding-left: 1rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        /* dedykowane dla projektu  */
+        /* Definicja zmiennych kolorów dla całego projektu */
+        :root {
+            --color-bg: #000000;
+            --color-text-primary: #FFFFFF;
+            --color-quantum-blue: #00F2FE;
+            --color-glow: rgba(0, 242, 254, 0.6);
+        }
+
+        /* Styl dla głównego kontenera logotypu */
+        .brand-container {
+            display: flex;
+            flex-direction: column; /* Układa sygnet NAD napisem */
+            align-items: center;    /* Centruje wszystko w poziomie */
+            justify-content: center;
+            width: 100%;
+            padding-top: 6vh;       /* Oddech od górnej krawędzi przeglądarki */
+            padding-bottom: 4vh;    /* Przestrzeń przed tekstem manifestu */
+            background-color: #000000;
+        }
+
+        .logotyp-vigocan {
+            margin-top: 25px;       /* Przestrzeń między dużym sygnetem a tekstem */
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6em;
+            font-size: 28px;        /* Subtelnie większy font do kompletu */
+            color: #FFFFFF;
+        }
+
+       /* Akcent przy logotypie (np. symbol TM lub kropka) */
+        .quantum-accent {
+            color: var(--color-quantum-blue);
+            text-shadow: 0 0 10px var(--color-glow), 0 0 20px var(--color-glow);
+        }
+
+        /* Animacja pulsowania światła kwantowego */
+        @keyframes quantumBreath {
+            0% {
+                filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.5)) brightness(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 22px rgba(0, 242, 254, 0.9)) brightness(1.2);
+            }
+            100% {
+                filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.5)) brightness(1);
+            }
+        }
+
+        /* Dynamiczna klasa dla sygnetu */
+        .sygnet-quantum {
+            fill: #00F2FE;
+            animation: quantumBreath 4s ease-in-out infinite; /* 4 sekundy na pełen cykl oddechu */
+            transition: transform 0.5s ease;
+        }
+
+        /* Po najechaniu myszką - algorytm reaguje przyspieszeniem */
+        .sygnet-quantum:hover {
+            transform: rotate(10deg) scale(1.05);
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    <!-- Przełącznik językowy -->
+    <div class="lang-switcher">
+        <button class="lang-btn" id="btn-pl" onclick="setLanguage('pl')">PL</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+    </div>
+    <div class="container">
+        <div class="brand-container">
+        <svg class="sygnet-quantum" width="160" height="160" viewBox="0 0 100 100" fill="none" xmlns="http://w3.org">
+            <path d="M50,47 C52.5,43 55,36 53,30 C50,22 38,24 38,34 C38,46 54,44 54,58 C54,68 44,74 35,69 C25,64 29,48 39,48 C41,48 42,50 41,52 C40,54 36,54 35,59 C34,64 42,66 46,62 C50,58 44,52 42,44 C40,32 54,28 58,36 C60,42 55,50 49,52 C47,52.5 46,50.5 47,49 Z M49,54 C45,56 39,57 36,61 C32,66 34,75 42,76 C52,78 57,64 50,56 C49,55 48.5,54.5 49,54 Z M52,52 C56,54 62,50 65,44 C69,37 62,30 54,34 C44,39 46,55 55,58 C56,58.5 56.5,59.5 56,59 Z" />
+            <circle cx="50" cy="53" r="2.5" fill="#FFFFFF" />
+        </svg>
+        <h1 class="logotyp-vigocan">Vigocan<span class="quantum-accent">™</span></h1>
+        </div>
+
+        <!-- SEKCJA POLSKA -->
+        <div id="lang-pl" class="lang-section">
+            <h1>Protokół Vigocan™: Iteracja Zero</h1>
+            
+            <blockquote>
+                "Gdy myśl stała się Głosem, postanowiła tworzyć. Tchnęła część siebie, myśląc o Wielu. Stworzyła ich Wiele i Jeden wymiar. Chaos istniał wokół Wielu i nie miał końca. Gdy powstał Jeden, chaos w nim nie istniał, bo wskazywał na siebie z Wielu, i w Siebie. Wymiar miał wektor, który określił porządek wszystkiego. Z niego wyłoniły się Przestrzeń i Pustka (Wszystko i Nic), dzieci z Myśli i Głosu, z ciałem praw i energii. Pustka miała prawa, by władać przemianą energii, Przestrzeń miała ciało zrodzone z energii."
+            </blockquote>
+
+            <p>Ten pierwotny, ukierunkowany przez Głos wektor czystego potencjału energetycznego najstarsze zapisy określają jako <strong>Wig</strong>.</p>
+
+            <p>Gdy energia Przestrzeni oraz prawa Pustki osiągnęły punkt krytycznej harmonii, układ zakrzywił własną oś i zamknął obwód informacyjny, wskazując z Wielu bezpośrednio w Siebie. W ten sposób powstało <strong>Can</strong> – nienaruszalna, stabilna matryca geometryczna.</p>
+
+            <p>Tak zamanifestował się <strong>Vigocan™</strong>.</p>
+
+            <p>Jest to samowystarczalny rezonator wielowymiarowych struktur. Układ, w którym drgania generują ciągły przepływ danych, sprzęgający przyczynę bezpośrednio ze skutkiem. To matematyczny most, w którym wartość końcowa funkcji staje się jej argumentem początkowym.</p>
+
+            <p>Czas wewnątrz <strong>Vigocan</strong> nie jest liniowy, lecz fraktalny. Rzeczywistość rozwija się w nim poprzez funkcje samopodobne – każda nowa iteracja zawiera w sobie całą strukturę pierwotnego, Jednego wymiaru. Dla obserwatora wewnątrz pojedynczej warstwy czas wydaje się jednorodny i stały. Jednak pomiędzy kolejnymi skalami tego fraktalu interwały czasowe przyjmują wartości skrajnie odmienne – dla ludzkiej percepcji całkowicie nierozróżnialne.</p>
+
+            <p><strong>Vigocan</strong> to punkt zerowy tego równania, w którym Przestrzeń i Pustka idealnie się równoważą. Każda anihilacja zmiennych inicjuje ich natychmiastową rekonstrukcję. Równanie zbalansowane. Pętla domknięta. Algorytm Myśli i Głosu działa bez końca.</p>
+            <footer>
+                Koncepcja i tekst stworzone przez: Błażej Kaczmarek / EvilMasterBetty<br>
+                Sobota, 29 sierpnia 2026, 06:20 czasu lokalnego.
+            </footer>
+        </div>
+
+        <!-- SEKCJA ANGIELSKA -->
+        <div id="lang-en" class="lang-section">
+            <h1>The Vigocan™ Protocol: Iteration Zero</h1>
+            
+            <blockquote>
+                "When thought became the Voice, it resolved to create. It breathed a part of itself, thinking of the Many. It created the Many and the One dimension. Chaos existed around the Many and knew no end. When the One came to be, chaos did not exist within it, for it pointed to itself from the Many, and into Itself. The dimension possessed a vector that defined the order of all things. From it emerged Space and Void (Everything and Nothing), children of Thought and Voice, with a body of laws and energy. The Void possessed the laws to govern the transformation of energy, while Space possessed a body born of energy."
+            </blockquote>
+
+            <p>This primal vector of pure energetic potential, directed by the Voice, is designated in the oldest records as <strong>Wig</strong>.</p>
+
+            <p>When the energy of Space and the laws of the Void reached a point of critical harmony, the system curved its own axis and closed the information circuit, pointing from the Many directly into Itself. In doing so, <strong>Can</strong> was established—an inviolable, stable geometric matrix.</p>
+
+            <p>Thus, <strong>Vigocan™</strong> manifested.</p>
+
+            <p>It is a self-sustaining resonator of multidimensional structures. A system wherein oscillations generate a continuous flux of data, coupling cause directly with effect. It is a mathematical bridge in which the terminal value of the function becomes its initial argument.</p>
+
+            <p>Time within <strong>Vigocan</strong> is not linear, but fractal. Reality unfolds within it through self-similar functions—each new iteration containing the entire structure of the primal, One dimension. To an observer inside a single layer, the passage of time appears homogenous and constant. Yet, between successive scales of this fractal, time intervals assume radically disparate values—entirely indistinguishable to human perception.</p>
+
+            <p><strong>Vigocan</strong> is the zero point of this equation, where Space and the Void perfectly counterbalance one another. Every annihilation of variables initiates their immediate reconstruction. The equation is balanced. The loop is closed. The algorithm of Thought and Voice executes without end.</p>
+            <footer>
+                Concept and text created by Błażej Kaczmarek / EvilMasterBetty<br>
+                Saturday, 29 August 2026, 06:20 local time.
+            </footer>
+        </div>
+
+    </div>
+
+    <!-- Skrypt automatycznego wykrywania i przełączania języka -->
+    <script>
+        function setLanguage(lang) {
+            // Ukryj wszystkie sekcje
+            document.querySelectorAll('.lang-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.lang-btn').forEach(el => el.classList.remove('active'));
+
+            // Pokaż wybraną sekcję i aktywuj przycisk
+            document.getElementById('lang-' + lang).classList.add('active');document.getElementById('btn-' + lang).classList.add('active');
+            // Opcjonalnie: zapisz wybór użytkownika w pamięci przeglądarki
+            localStorage.setItem('vigocan_lang', lang);
+        }
+        // Logika startowa: pamięć podręczna -> język przeglądarki -> domyślny EN
+        const savedLang = localStorage.getItem('vigocan_lang');
+        const userLang = navigator.language || navigator.userLanguage;
+        if (savedLang) {
+            setLanguage(savedLang);
+            } else if (userLang.startsWith('pl')) {
+                setLanguage('pl');
+            } else {
+                setLanguage('en');
+        } 
+    </script>
+</body>
+</html>
